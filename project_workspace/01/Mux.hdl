@@ -13,7 +13,12 @@ CHIP Mux {
     OUT out;
 
     PARTS:
-    Not(in=a, out=nota);
+    //deleted many permutations.
+    Not(in=sel, out=notsel);
     And(a=sel, b=b, out=andSelB);
-    And(a=nota, b=andSelB, out=out);
+
+//output
+//THANKS WIKIPEDIA: http://en.wikipedia.org/wiki/Multiplexer#Digital_multiplexers
+    And(a=a, b=notsel, out=w1);
+    Or(a=w1, b=andSelB, out=out);
 }
