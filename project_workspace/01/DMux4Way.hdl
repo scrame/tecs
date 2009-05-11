@@ -15,6 +15,20 @@ CHIP DMux4Way {
     OUT a, b, c, d;
 
     PARTS:
-    // Implementation missing.
+    //2-4 decoder for sel
+    Not(in=sel[0],out=notSel0);
+    Not(in=sel[1],out=notSel1);
+
+    And(a=notSel1, b=notSel0, out=d0);
+    And(a=notSel1, b=sel[0], out=d1);
+    And(a=sel[1], b=notSel0, out=d2);
+    And(a=sel[1], b=sel[0], out=d3);
+
+//demuxer from wikipedia
+    And(a=in, b=d0, out=a);
+    And(a=in, b=d1, out=b);
+    And(a=in, b=d2, out=c);
+    And(a=in, b=d3, out=d);
+
 }
 
