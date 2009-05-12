@@ -1,19 +1,20 @@
 // This file is part of the materials accompanying the book 
 // "The Elements of Computing Systems" by Nisan and Schocken, 
 // MIT Press. Book site: www.idc.ac.il/tecs
-// File name: projects/03/1/Register.hdl
+// File name: projects/02/Add16.hdl
 
 /**
- * 16-Bit register. 
- * If load[t-1]=1 then out[t] = in[t-1]
- * else out does not change (out[t] = out[t-1])
+ * 16-bit integer adder.  out = a + b where a,b are 16-bit 
+ * 2's complement representations of integers.  Overflow is 
+ * neither detected nor handled.
  */
 
-CHIP Register {
+CHIP Add16 {
 
-    IN  in[16], load;
+    IN  a[16], b[16];
     OUT out[16];
 
     PARTS:
     // Implementation missing.
 }
+
