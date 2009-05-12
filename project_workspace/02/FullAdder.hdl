@@ -15,6 +15,13 @@ CHIP FullAdder {
         carry;   // MSB of a + b + c
 
     PARTS:
-    // Implementation missing.
+    Xor(a=a,b=b,out=suma);
+    Xor(a=suma,b=c,out=sum);
+    And(a=a,b=b,out=carrya);
+    And(a=c,b=b,out=carryb);
+    And(a=a,b=c,out=carryc);
+    Or(a=carrya,b=carryb,out=w1);
+    Or(a=w1,b=carryc,out=carry);
+
 }
 
