@@ -14,6 +14,12 @@ CHIP Inc16 {
     OUT out[16];
 
     PARTS:
-    Add16(a=in,b=in, out=out);
+    Not16(in=in,out=notIn);
+    And16(a=in,b=notIn,out=zero);
+    Not16(in=zero,out=max);
+    Add16(a=max,b=max,out=notOne);
+    Not16(in=notOne,out=one);
+
+    Add16(a=in,b=one,out=out);
 }
 
