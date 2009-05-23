@@ -41,5 +41,30 @@ CHIP ALU {
         ng; // 1 if out<0, 0 otherwise
 
     PARTS:
-    // Implementation missing.
+        Not16(in=x,out=notx);
+        Not16(in=y,out=noty);
+        And16(a=x, b=notx, out=zero);
+        Inc16(in=zero, out=one);
+        Not16(in=zero, out=max);
+        Mux4Way16(a=x,b=notx,c=zero,d=max,sel[0]=nx,sel[1]=zx, out=muxX);
+        Mux4Way16(a=y,b=noty,c=zero,d=max,sel[0]=ny,sel[1]=zy, out=muxY);
+
+        //compute both and and add functions and sel with f
+        And16(a=muxX,b=muxY,out=andOut);
+        Add16(a=muxX,b=muxY,out=addOut);
+        Mux16(a=andOut,b=addOut,sel=f,out=muxOut);
+
+        Add16(a=max,b=max,out=addMax);
+
+        //negate the output.
+        Not16(in=muxOut,out=notMuxOut);
+        Mux16(a=muxOut,b=notMuxOut,sel=no,out=out);
+        Mux16(a=muxOut,b=notMuxOut,sel=no,out=finalOut);
+
+        //zr register:
+        Or16Way(in=finalOut,out=orOut);
+        Not(in=orOut,out=zr);
+        //ng register:
+        And16(a=finalOut,b=true,out[15]=ng);
 }
+
