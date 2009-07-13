@@ -18,5 +18,27 @@ CHIP PC {
     OUT out[16];
 
     PARTS:
-    // Implementation missing.
+
+    //out zx nx zy ny f no
+    //0   1  0  1  0  1 0
+    //x   0  0  1  1  0 0
+    //x+1 0  1  1  1  1 1
+    //
+    //Breakdown:
+    //nx = no
+    //zy = 1
+    //default = zy + ny
+
+    //reset = zx + f - ny
+    //inc   = nx + f + no
+
+//Skipping this one finally, just to move on. This doesnt work, but is close to what is needed.
+/*
+    Not(in=reset,out=notreset);
+    Xor(a=reset,b=inc,out=f);    
+    Mux16(a=w1,b=in,sel=load,out=muxOut);
+    ALU(x=muxOut,y=true,zx=reset,nx=inc,zy=true,ny=notreset,f=f,no=inc,out=w0);
+    Register(in=w0,load=load,out=w1);
+    Mux16(a=w1,b=w0,sel=load,out=out);
+*/
 }
