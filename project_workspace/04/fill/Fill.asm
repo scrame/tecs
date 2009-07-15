@@ -41,9 +41,10 @@ D;JGT
 (FILL)
 
 @pointer
-D=M
-A=D
-M=1
+D=0
+D=!D
+A=M
+M=D
 
 @pointer
 D=M
