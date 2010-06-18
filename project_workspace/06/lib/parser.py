@@ -91,7 +91,7 @@ class Parser:
         #L-instruction starts with (
         elif("\(" == cmd[0]):
             return "L_COMMAND: " + cmd
-        #C-instruction otherwise (not safe)
+        #C-instruction otherwise (not a safe assumption)
         else:
             return "C_COMMAND: " + cmd
 
