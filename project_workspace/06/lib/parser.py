@@ -6,8 +6,11 @@ class Parser:
         input = self.__parse_file(input_file)
         print("creating output")
         output = self.__create_output(input_file)
+
+
         
 
+    #returns a list of the lines of the input file
     def __parse_file(self, input_file):
         print("opening: " + str(input_file))
         f = open(input_file)
@@ -17,7 +20,8 @@ class Parser:
     #todo: y'know.
     def __create_output(self, input_file_name):
         build = "build"
-        base = path.splitext(path.basename(input_file_name))[0]
+        file_name = path.basename(input_file_name)
+        base = path.splitext(file_name)[0]
         print "base: " + base
         if(not(path.exists(build))):
             mkdir(build)
