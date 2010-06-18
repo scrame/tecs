@@ -17,7 +17,12 @@ class Parser:
         print("opening: " + str(input_file))
         f = open(input_file)
         self.file_pos = 0
-        return f.readlines()
+        retval = []
+        for line in f.readlines():
+            line = line.rstrip()
+            if line:
+                retval.append(line)
+        return retval
 
     #returns a writeable output handle to "build"
     #todo: y'know.
@@ -47,7 +52,7 @@ class Parser:
     #          read the next command
     def __advance(self):
 #        print("advance")
-        if(self.__has_more_commands):            
+        if(self.__has_more_commands()):            
             self.file_pos += 1
 
     #support function:
