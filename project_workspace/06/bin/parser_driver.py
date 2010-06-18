@@ -11,3 +11,5 @@ if(None == argv[1]):
 file = argv[1]
 
 parser = Parser(file)
+parser.test()
+
