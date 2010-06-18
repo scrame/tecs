@@ -53,8 +53,9 @@ class Parser:
     #support function:
     def __get_current_command(self):
 #        print("SUPPORT: get_current_command")
-        if(self.__has_more_commands()):
-            return self.input_lines[self.file_pos]
+        if(self.__has_more_commands() ):
+            next_cmd = self.input_lines[self.file_pos]
+            return next_cmd
         return None
 
 
@@ -77,7 +78,7 @@ class Parser:
         #A-instruction: @value
         if('@' == cmd[0]):
             return "A_COMMAND: " + cmd
-        return "ERROR: " + str(cmd).rstrip() + " not yet handled"
+        return "ERROR: " + str(cmd) + " not yet handled"
 
     #symbol: returns the symbol or decimal of the current
     #         command, if A_COMMAND or L_COMMAND
