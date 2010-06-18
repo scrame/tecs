@@ -9,6 +9,10 @@ class Parser:
         self.output = self.__create_output(input_file)
 
 
+    def __is_comment(self,line):
+        if(line.startswith("//")):
+            return True
+
         
     #the current position of the input file
     file_pos = -1
@@ -21,7 +25,8 @@ class Parser:
         for line in f.readlines():
             line = line.rstrip()
             if line:
-                retval.append(line)
+                if(not(self.__is_comment(line))):
+                    retval.append(line)
         return retval
 
     #returns a writeable output handle to "build"
@@ -60,6 +65,7 @@ class Parser:
 #        print("SUPPORT: get_current_command")
         if(self.__has_more_commands() ):
             next_cmd = self.input_lines[self.file_pos]
+            
             return next_cmd
         return None
 
@@ -83,7 +89,12 @@ class Parser:
         #A-instruction: @value
         if('@' == cmd[0]):
             return "A_COMMAND: " + cmd
-        return "ERROR: " + str(cmd) + " not yet handled"
+        #L-instruction starts with (
+        elif("\(" == cmd[0]):
+            return "L_COMMAND: " + cmd
+        #C-instruction otherwise (not safe)
+        else:
+            return "C_COMMAND: : " + cmd
 
     #symbol: returns the symbol or decimal of the current
     #         command, if A_COMMAND or L_COMMAND
