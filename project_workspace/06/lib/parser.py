@@ -40,19 +40,19 @@ class Parser:
 
     #has_more_commands: hasNext() on the input
     def __has_more_commands(self):
-        print("has_more_commands")
+#        print("has_more_commands")
         return self.file_pos + 1 < len(self.input_lines)
 
     #advance: if has_more_commands is true,
     #          read the next command
     def __advance(self):
-        print("advance")
+#        print("advance")
         if(self.__has_more_commands):            
             self.file_pos += 1
 
     #support function:
     def __get_current_command(self):
-        print("SUPPORT: get_current_command")
+#        print("SUPPORT: get_current_command")
         if(self.__has_more_commands()):
             return self.input_lines[self.file_pos]
         return None
@@ -70,13 +70,13 @@ class Parser:
     #command_type: returns the type of command
     #               A_COMMAND,C_COMMAND,L_COMMAND
     def __command_type(self):
-        print("command_type")
+#        print("command_type")
         cmd = self.__get_current_command()
-        print "char[0]: " + str(cmd[0])
+#        print "char[0]: " + str(cmd[0])
 
         #A-instruction: @value
         if('@' == cmd[0]):
-            return self.A_COMMAND
+            return "A_COMMAND: " + cmd
         return "ERROR: " + str(cmd).rstrip() + " not yet handled"
 
     #symbol: returns the symbol or decimal of the current
