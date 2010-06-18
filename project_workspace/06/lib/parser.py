@@ -13,7 +13,6 @@ class Parser:
     def __is_comment(self,line):
         if(line.startswith("//")):
             return True
-
         
     #the current position of the input file
     file_pos = -1
@@ -28,6 +27,8 @@ class Parser:
             if line:
                 if(not(self.__is_comment(line))):
                     retval.append(line)
+        #So the iteration functions work.
+        retval.append(None)
         return retval
 
     #returns a writeable output handle to "build"
@@ -134,6 +135,7 @@ class Parser:
 #            print self.__get_current_command()
             print self.__command_type()
             self.__advance()
+        print self.__get_current_command()
 
 
 if __name__ == "__main__":
