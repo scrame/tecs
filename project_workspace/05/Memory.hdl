@@ -28,5 +28,14 @@ CHIP Memory {
     OUT out[16];
 
     PARTS:
-    // Implementation missing.
+
+    RAM16K(in=in, load=load,address=address[0..13],out=ramOut);
+
+//SCREEN: 
+    Screen(in=in, address=address[0..12],out=screenOut);
+
+//KEYBOARD:
+    Keyboard(out=kbdOut);
+
+    Mux4Way16(a=ramOut,b=ramOut,c=kbdOut,d=screenOut,sel[0]=address[13],sel[1]=address[14],out=out);
 }
