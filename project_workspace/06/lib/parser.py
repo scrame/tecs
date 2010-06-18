@@ -5,6 +5,7 @@ class Parser:
         print("initializing parser")
         print("loading input")
         self.input_lines = self.__parse_file(input_file)
+        print("input lines: " + str(self.input_lines))
         print("creating output")
         self.output = self.__create_output(input_file)
 
@@ -64,9 +65,7 @@ class Parser:
     def __get_current_command(self):
 #        print("SUPPORT: get_current_command")
         if(self.__has_more_commands() ):
-            next_cmd = self.input_lines[self.file_pos]
-            
-            return next_cmd
+            return self.input_lines[self.file_pos]
         return None
 
 
@@ -94,7 +93,7 @@ class Parser:
             return "L_COMMAND: " + cmd
         #C-instruction otherwise (not safe)
         else:
-            return "C_COMMAND: : " + cmd
+            return "C_COMMAND: " + cmd
 
     #symbol: returns the symbol or decimal of the current
     #         command, if A_COMMAND or L_COMMAND
@@ -126,19 +125,15 @@ class Parser:
     #calls the commands in serial,
     #basic test shouldn't fail
     def test(self):
-        self.__has_more_commands()
-        self.__advance()
-        self.__command_type()
-        self.__symbol()
-        self.__dest()
-        self.__comp()
-        self.__jump()
+#        self.__symbol()
+#        self.__dest()
+#        self.__comp()
+#        self.__jump()
         #letst iterate!
         while(self.__has_more_commands()):
 #            print self.__get_current_command()
             print self.__command_type()
             self.__advance()
-        
 
 
 if __name__ == "__main__":
