@@ -57,11 +57,27 @@ class Parser:
             return self.input_lines[self.file_pos]
         return None
 
+
+    #Fake Enum:
+    ERROR = -1
+    A_COMMAND = 0
+    C_COMMAND = 1
+    #Still first pass havn't implemented
+    #symbols and loops
+    #L_COMMAND = 2
+
+
     #command_type: returns the type of command
     #               A_COMMAND,C_COMMAND,L_COMMAND
     def __command_type(self):
         print("command_type")
-        
+        cmd = self.__get_current_command()
+        print "char[0]: " + str(cmd[0])
+
+        #A-instruction: @value
+        if('@' == cmd[0]):
+            return self.A_COMMAND
+        return "ERROR: " + str(cmd).rstrip() + " not yet handled"
 
     #symbol: returns the symbol or decimal of the current
     #         command, if A_COMMAND or L_COMMAND
@@ -102,9 +118,11 @@ class Parser:
         self.__jump()
         #letst iterate!
         while(self.__has_more_commands()):
-            print self.__get_current_command()
+#            print self.__get_current_command()
+            print self.__command_type()
             self.__advance()
         
+
 
 if __name__ == "__main__":
     print("running main for " + str(argv[0]))
