@@ -26,3 +26,39 @@ class Parser:
         if(not(path.exists(build))):
             mkdir(build)
         return open(build+"/"+base+".hack","w")
+
+
+    #the following are the methods
+    #suggested by the text.
+
+    #has_more_commands: hasNext() on the input
+    def has_more_commands(self):
+        print("has_more_commands")
+
+    #advance: if has_more_commands is true,
+    #          read the next command
+    def advance(self):
+        print("advance")
+
+    #command_type: returns the type of command
+    #               A_COMMAND,C_COMMAND,L_COMMAND
+    def command_type(self):
+        print("command_type")
+
+    #symbol: returns the symbol or decimal of the current
+    #         command, if A_COMMAND or L_COMMAND
+    def symbol(self):
+        print("symbol")
+
+    #dest: returns the dest mnemonic for a C_COMMAND
+    def dest(self):
+        print("dest")
+
+    #comp: returns the comp mnemonic for a C_COMMAND
+    def comp(self):
+        print("comp")
+
+    #jump: returns the jump mnemonic for a C_COMMAND
+    def jump(self):
+        print("jump")
+
