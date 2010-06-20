@@ -97,7 +97,7 @@ class Parser:
 
     #dest: returns the dest mnemonic for a C_COMMAND
     def __dest(self):
-        retval = ""
+        retval = None
         cmd = self.__get_current_command()
         idx = cmd.find('=')
         if(-1 != idx):
@@ -107,12 +107,34 @@ class Parser:
 
     #comp: returns the comp mnemonic for a C_COMMAND
     def __comp(self):
-        retval =""
+        retval = None
+        cmd = self.__get_current_command()
+        idxe = cmd.find('=')
+        idxs = cmd.find(';')
+
+        #no jmp
+        if(-1 == idxs):
+            #no dest
+            if(-1 == idxe):
+                retval = cmd
+            #dest
+            else:
+                retval = cmd[idxe+1:len(cmd)]
+        #jmp
+        else:
+            #no dest (this shouldn't happen)
+            if(-1 == idxe):
+                print("Warning! " + cmd + " has a jmp, but no dest.")
+                retval = None
+            #dest
+            else:
+                retval = cmd[idxe+1:idxs]
+            
         return retval
 
     #jump: returns the jump mnemonic for a C_COMMAND
     def __jump(self):
-        retval =""
+        retval = None
         cmd = self.__get_current_command()
         idx = cmd.find(';')
         if(-1 != idx):
@@ -132,23 +154,14 @@ class Parser:
     #calls the commands in serial,
     #basic test shouldn't fail
     def test(self):
-#        self.__symbol()
-#        self.__dest()
-#        self.__comp()
-#        self.__jump()
         #letst iterate!
         while(self.__has_more_commands()):
             cmd = self.__get_current_command()
             if(self.commands.A_COMMAND==self.__command_type()):
                 print "A: " + self.__symbol()
             elif(self.commands.C_COMMAND==self.__command_type()):
-                print "C: d=" + self.__dest() + " c=" + self.__comp() + " j=" + self.__jump()
+                print "C: d=" + str(self.__dest()) + " c=" + str(self.__comp()) + " j=" + str(self.__jump())
             elif(self.commands.L_COMMAND==self.__command_type()):
                 print "L: " + self.__symbol()
             self.__advance()
-
-
-if __name__ == "__main__":
-    print("running main for " + str(argv[0]))
-
 
