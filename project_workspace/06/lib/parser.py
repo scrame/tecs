@@ -1,3 +1,4 @@
+from re import sub
 from code import Code
 from sys import argv
 from os import path,mkdir
@@ -25,7 +26,8 @@ class Parser:
         self.file_pos = 0
         retval = []
         for line in f.readlines():
-            line = line.rstrip()
+            #ignore whitespace
+            line = sub("\s+", "", line)
             if line:
                 if(not(self.__is_comment(line))):
                     retval.append(line)
