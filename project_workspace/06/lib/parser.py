@@ -158,12 +158,13 @@ class Parser:
             cmd = self.__get_current_command()
             if(self.commands.A_COMMAND==self.__command_type()):
                 print "A: " + self.__symbol()
+                #the magic symbol is from here: http://stackoverflow.com/questions/1002116/can-bin-be-overloaded-like-oct-and-hex-in-python-2-6
+                self.output.write("0" + '{0:015b}'.format(int(self.__symbol()))+"\n")
+
             elif(self.commands.C_COMMAND==self.__command_type()):
                 print "C: d=" + str(self.__dest()) + " c=" + str(self.__comp()) + " j=" + str(self.__jump())
-                print "Code: 111" + code.comp(self.__comp()) + code.dest(self.__dest()) + code.jump(self.__jump())
+                #code emission. should be set to the output_file in the end.
+                self.output.write("111" + code.comp(self.__comp()) + code.dest(self.__dest()) + code.jump(self.__jump())+"\n")
             elif(self.commands.L_COMMAND==self.__command_type()):
                 print "L: " + self.__symbol()
             self.__advance()
-
-
-

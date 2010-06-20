@@ -1,7 +1,8 @@
 
 
 #Code module from chapter 6 of the elements of computing systems.
-class Code:
+class Code:    
+
 
     #comp.op should never be null.
     def comp(self,op):
@@ -73,7 +74,4 @@ class Code:
         "AD" : "110",
         "AMD" : "111",
         }
-
-if(__name__ == "__main__"):
-    print "test"
 
