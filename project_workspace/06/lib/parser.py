@@ -52,22 +52,17 @@ class Parser:
 
     #has_more_commands: hasNext() on the input
     def __has_more_commands(self):
-#        print("has_more_commands")
         return self.file_pos + 1 < len(self.input_lines)
 
     #advance: if has_more_commands is true,
     #          read the next command
     def __advance(self):
-#        print("advance")
         if(self.__has_more_commands()):            
             self.file_pos += 1
 
     #support function:
     def __get_current_command(self):
-#        print("SUPPORT: get_current_command")
-        if(self.__has_more_commands() ):
-            return self.input_lines[self.file_pos]
-        return None
+        return self.input_lines[self.file_pos]
 
 
     #Fake Enum:
@@ -132,10 +127,8 @@ class Parser:
 #        self.__jump()
         #letst iterate!
         while(self.__has_more_commands()):
-#            print self.__get_current_command()
             print self.__command_type()
             self.__advance()
-        print self.__get_current_command()
 
 
 if __name__ == "__main__":
