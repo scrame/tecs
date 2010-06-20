@@ -1,5 +1,6 @@
 from sys import argv
 from os import path,mkdir
+from enum import Enum
 class Parser:
     def __init__(self,input_file):
         print("initializing parser")
@@ -65,48 +66,58 @@ class Parser:
         return self.input_lines[self.file_pos]
 
 
-    #Fake Enum:
-    ERROR = -1
-    A_COMMAND = 0
-    C_COMMAND = 1
-    #Still first pass havn't implemented
-    #symbols and loops
-    #L_COMMAND = 2
-
+    commands = Enum('ERROR','A_COMMAND','C_COMMAND','L_COMMAND')
 
     #command_type: returns the type of command
     #               A_COMMAND,C_COMMAND,L_COMMAND
     def __command_type(self):
-#        print("command_type")
         cmd = self.__get_current_command()
-#        print "char[0]: " + str(cmd[0])
 
         #A-instruction: @value
         if('@' == cmd[0]):
-            return "A_COMMAND: " + cmd
+            return self.commands.A_COMMAND
         #L-instruction starts with (
-        elif("\(" == cmd[0]):
-            return "L_COMMAND: " + cmd
+        elif("(" == cmd[0]):
+            return self.commands.L_COMMAND
         #C-instruction otherwise (not a safe assumption)
         else:
-            return "C_COMMAND: " + cmd
+            return self.commands.C_COMMAND
 
     #symbol: returns the symbol or decimal of the current
     #         command, if A_COMMAND or L_COMMAND
     def __symbol(self):
-        print("symbol")
+        cmd = self.__get_current_command()
+        #extra muxing since the API required this handle A and L types.
+        if(self.commands.A_COMMAND==self.__command_type()):
+            return cmd[1:len(cmd)]
+        elif(self.commands.L_COMMAND==self.__command_type()):
+            return cmd[1:len(cmd)-1]        
+        else:
+            return None
 
     #dest: returns the dest mnemonic for a C_COMMAND
     def __dest(self):
-        print("dest")
+        retval = ""
+        cmd = self.__get_current_command()
+        idx = cmd.find('=')
+        if(-1 != idx):
+            retval = cmd[0:idx]
+        return retval
+
 
     #comp: returns the comp mnemonic for a C_COMMAND
     def __comp(self):
-        print("comp")
+        retval =""
+        return retval
 
     #jump: returns the jump mnemonic for a C_COMMAND
     def __jump(self):
-        print("jump")
+        retval =""
+        cmd = self.__get_current_command()
+        idx = cmd.find(';')
+        if(-1 != idx):
+            retval = cmd[idx+1:len(cmd)]
+        return retval
 
     #to implement this, I am going to go with a straight
     #prodcedural implementation. the above functions are the
@@ -127,7 +138,13 @@ class Parser:
 #        self.__jump()
         #letst iterate!
         while(self.__has_more_commands()):
-            print self.__command_type()
+            cmd = self.__get_current_command()
+            if(self.commands.A_COMMAND==self.__command_type()):
+                print "A: " + self.__symbol()
+            elif(self.commands.C_COMMAND==self.__command_type()):
+                print "C: d=" + self.__dest() + " c=" + self.__comp() + " j=" + self.__jump()
+            elif(self.commands.L_COMMAND==self.__command_type()):
+                print "L: " + self.__symbol()
             self.__advance()
 
 
