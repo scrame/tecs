@@ -1,3 +1,4 @@
+from code import Code
 from sys import argv
 from os import path,mkdir
 from enum import Enum
@@ -122,10 +123,9 @@ class Parser:
                 retval = cmd[idxe+1:len(cmd)]
         #jmp
         else:
-            #no dest (this shouldn't happen)
+            #no dest 
             if(-1 == idxe):
-                print("Warning! " + cmd + " has a jmp, but no dest.")
-                retval = None
+                retval = cmd[0:idxs]
             #dest
             else:
                 retval = cmd[idxe+1:idxs]
@@ -151,9 +151,8 @@ class Parser:
     #The quickest way to solve this is just implement
     #a counter when the file is initialized.
 
-    #calls the commands in serial,
-    #basic test shouldn't fail
     def test(self):
+        code = Code()
         #letst iterate!
         while(self.__has_more_commands()):
             cmd = self.__get_current_command()
@@ -161,7 +160,10 @@ class Parser:
                 print "A: " + self.__symbol()
             elif(self.commands.C_COMMAND==self.__command_type()):
                 print "C: d=" + str(self.__dest()) + " c=" + str(self.__comp()) + " j=" + str(self.__jump())
+                print "Code: 111" + code.comp(self.__comp()) + code.dest(self.__dest()) + code.jump(self.__jump())
             elif(self.commands.L_COMMAND==self.__command_type()):
                 print "L: " + self.__symbol()
             self.__advance()
+
+
 
