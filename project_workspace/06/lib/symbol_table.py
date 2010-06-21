@@ -5,7 +5,6 @@
 #always strings and it only accepts ints for values.
 class SymbolTable:
 
-
     #predefined symbols.
     symbols = {
         "SP" : 0,
@@ -33,15 +32,11 @@ class SymbolTable:
         "KBD" : 24576,
         }
 
-#    def __init__(self):
-#        self.symbols = {}
-
     def add_entry(self,symbol,address):
         self.symbols[str(symbol)] = int(address)
 
     def contains(self,symbol):
         return symbol in self.symbols
-
     def get_address(self,symbol):
         return self.symbols[str(symbol)]
 
