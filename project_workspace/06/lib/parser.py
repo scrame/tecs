@@ -55,17 +55,17 @@ class Parser:
     current_command = None
 
     #has_more_commands: hasNext() on the input
-    def __has_more_commands(self):
+    def has_more_commands(self):
         return self.file_pos + 1 < len(self.input_lines)
 
     #advance: if has_more_commands is true,
     #          read the next command
-    def __advance(self):
+    def advance(self):
         if(self.__has_more_commands()):            
             self.file_pos += 1
 
     #support function:
-    def __get_current_command(self):
+    def get_current_command(self):
         return self.input_lines[self.file_pos]
 
 
@@ -73,7 +73,7 @@ class Parser:
 
     #command_type: returns the type of command
     #               A_COMMAND,C_COMMAND,L_COMMAND
-    def __command_type(self):
+    def command_type(self):
         cmd = self.__get_current_command()
 
         #A-instruction: @value
@@ -88,7 +88,7 @@ class Parser:
 
     #symbol: returns the symbol or decimal of the current
     #         command, if A_COMMAND or L_COMMAND
-    def __symbol(self):
+    def symbol(self):
         cmd = self.__get_current_command()
         #extra muxing since the API required this handle A and L types.
         if(self.commands.A_COMMAND==self.__command_type()):
@@ -99,7 +99,7 @@ class Parser:
             return None
 
     #dest: returns the dest mnemonic for a C_COMMAND
-    def __dest(self):
+    def dest(self):
         retval = None
         cmd = self.__get_current_command()
         idx = cmd.find('=')
@@ -109,7 +109,7 @@ class Parser:
 
 
     #comp: returns the comp mnemonic for a C_COMMAND
-    def __comp(self):
+    def comp(self):
         retval = None
         cmd = self.__get_current_command()
         idxe = cmd.find('=')
@@ -135,7 +135,7 @@ class Parser:
         return retval
 
     #jump: returns the jump mnemonic for a C_COMMAND
-    def __jump(self):
+    def jump(self):
         retval = None
         cmd = self.__get_current_command()
         idx = cmd.find(';')
@@ -143,30 +143,3 @@ class Parser:
             retval = cmd[idx+1:len(cmd)]
         return retval
 
-    #to implement this, I am going to go with a straight
-    #prodcedural implementation. the above functions are the
-    #API that is probably needed for the other chapters. 
-    
-    #Anyway, the parser requires a file for input, and the 
-    #advance and has_more_commands are just basic 
-    #iterator functions
-    #The quickest way to solve this is just implement
-    #a counter when the file is initialized.
-
-    def test(self):
-        code = Code()
-        #letst iterate!
-        while(self.__has_more_commands()):
-            cmd = self.__get_current_command()
-            if(self.commands.A_COMMAND==self.__command_type()):
-                print "A: " + self.__symbol()
-                #the magic symbol is from here: http://stackoverflow.com/questions/1002116/can-bin-be-overloaded-like-oct-and-hex-in-python-2-6
-                self.output.write("0" + '{0:015b}'.format(int(self.__symbol()))+"\n")
-
-            elif(self.commands.C_COMMAND==self.__command_type()):
-                print "C: d=" + str(self.__dest()) + " c=" + str(self.__comp()) + " j=" + str(self.__jump())
-                #code emission. should be set to the output_file in the end.
-                self.output.write("111" + code.comp(self.__comp()) + code.dest(self.__dest()) + code.jump(self.__jump())+"\n")
-            elif(self.commands.L_COMMAND==self.__command_type()):
-                print "L: " + self.__symbol()
-            self.__advance()
