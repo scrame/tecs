@@ -12,7 +12,7 @@ class SymbolTable:
         self.symbols[str(symbol)] = int(address)
 
     def contains(self,symbol):
-        return None != self.symbols[str(symbol)]
+        return symbol in self.symbols
 
     def get_address(self,symbol):
         return self.symbols[str(symbol)]
@@ -22,6 +22,7 @@ if(__name__ =='__main__'):
     print(t.add_entry(123,123))
     print(t.contains(123))
     print(t.contains('123'))
+    print(t.contains("key"))
     print(t.get_address(123))
 
 
