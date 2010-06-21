@@ -8,7 +8,6 @@ class Assembler:
         self.input_file = input_file
         self.code = Code()
         self.parser = Parser(self.input_file)
-        self.symbol_table = SymbolTable()
 
 
     #to implement this, I am going to go with a straight
@@ -41,4 +40,46 @@ class Assembler:
 
 
     def two_pass_assembly(self):
+        symbol_table = SymbolTable()
+        rom_address = 0
         print("starting first pass")
+        while(self.parser.has_more_commands()):
+            cmd = self.parser.get_current_command()
+            if(self.parser.commands.L_COMMAND==self.parser.command_type()):
+                print "L: " + self.parser.symbol()
+                symbol_table.add_entry(self.parser.symbol(),rom_address)
+            else:
+                rom_address += 1
+            self.parser.advance()
+            
+        self.parser.reset()
+
+
+        #the second pass is the same as the first without the print statements, 
+        #and without handling (Xxx) syntax
+
+        print("starting second pass")
+        while(self.parser.has_more_commands()):
+            cmd = self.parser.get_current_command()
+            if(self.parser.commands.A_COMMAND==self.parser.command_type()):
+                sym = self.parser.symbol()                
+                if(sym.isdigit()):
+                    val = sym
+                else:
+                    if(symbol_table.contains(sym)):
+                        val = symbol_table.get_address(sym)
+                    else:
+                        symbol_table.add_entry(sym, rom_address)
+                        rom_address += 1
+                        val = rom_address
+                
+                self.parser.output.write("0" + '{0:015b}'.format(int(val))+"\n")
+
+            elif(self.parser.commands.C_COMMAND==self.parser.command_type()):
+                self.parser.output.write("111" 
+                                         + self.code.comp(self.parser.comp()) 
+                                         + self.code.dest(self.parser.dest()) 
+                                         + self.code.jump(self.parser.jump())
+                                         +"\n")
+            self.parser.advance()
+

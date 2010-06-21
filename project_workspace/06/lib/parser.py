@@ -64,6 +64,9 @@ class Parser:
         if(self.has_more_commands()):            
             self.file_pos += 1
 
+    def reset(self):
+        self.file_pos = 0
+
     #support function:
     def get_current_command(self):
         return self.input_lines[self.file_pos]
