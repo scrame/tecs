@@ -1,6 +1,6 @@
 #!/usr/bin/python2.6
 
-from parser import Parser
+from assembler import Assembler
 from sys import argv
 
 #only care about the first argument.
@@ -9,7 +9,6 @@ if(None == argv[1]):
     exit(255)
 
 file = argv[1]
-
-parser = Parser(file)
-parser.test()
-
+assembler = Assembler(file)
+#assembler.symbol_less_assembly()
+assembler.two_pass_assembly()
