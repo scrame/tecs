@@ -10,5 +10,5 @@ if(None == argv[1]):
 
 file = argv[1]
 assembler = Assembler(file)
-
+assembler.symbol_less_assembly()
 assembler.two_pass_assembly()

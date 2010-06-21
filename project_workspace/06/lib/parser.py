@@ -1,9 +1,9 @@
 from re import sub
-from code import Code
 from sys import argv
 from os import path,mkdir
 from enum import Enum
 class Parser:
+
     def __init__(self,input_file):
         print("initializing parser")
         print("loading input")
@@ -61,7 +61,7 @@ class Parser:
     #advance: if has_more_commands is true,
     #          read the next command
     def advance(self):
-        if(self.__has_more_commands()):            
+        if(self.has_more_commands()):            
             self.file_pos += 1
 
     #support function:
@@ -74,7 +74,7 @@ class Parser:
     #command_type: returns the type of command
     #               A_COMMAND,C_COMMAND,L_COMMAND
     def command_type(self):
-        cmd = self.__get_current_command()
+        cmd = self.get_current_command()
 
         #A-instruction: @value
         if('@' == cmd[0]):
@@ -89,11 +89,11 @@ class Parser:
     #symbol: returns the symbol or decimal of the current
     #         command, if A_COMMAND or L_COMMAND
     def symbol(self):
-        cmd = self.__get_current_command()
+        cmd = self.get_current_command()
         #extra muxing since the API required this handle A and L types.
-        if(self.commands.A_COMMAND==self.__command_type()):
+        if(self.commands.A_COMMAND==self.command_type()):
             return cmd[1:len(cmd)]
-        elif(self.commands.L_COMMAND==self.__command_type()):
+        elif(self.commands.L_COMMAND==self.command_type()):
             return cmd[1:len(cmd)-1]        
         else:
             return None
@@ -101,7 +101,7 @@ class Parser:
     #dest: returns the dest mnemonic for a C_COMMAND
     def dest(self):
         retval = None
-        cmd = self.__get_current_command()
+        cmd = self.get_current_command()
         idx = cmd.find('=')
         if(-1 != idx):
             retval = cmd[0:idx]
@@ -111,7 +111,7 @@ class Parser:
     #comp: returns the comp mnemonic for a C_COMMAND
     def comp(self):
         retval = None
-        cmd = self.__get_current_command()
+        cmd = self.get_current_command()
         idxe = cmd.find('=')
         idxs = cmd.find(';')
 
@@ -137,7 +137,7 @@ class Parser:
     #jump: returns the jump mnemonic for a C_COMMAND
     def jump(self):
         retval = None
-        cmd = self.__get_current_command()
+        cmd = self.get_current_command()
         idx = cmd.find(';')
         if(-1 != idx):
             retval = cmd[idx+1:len(cmd)]
