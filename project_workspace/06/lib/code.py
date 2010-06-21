@@ -6,19 +6,19 @@ class Code:
 
     #comp.op should never be null.
     def comp(self,op):
-        return self.comp_table[op]
+        return self.__comp_table[op]
 
     def dest(self,op):
         if(None == op):
             op = "null"
-        return self.dest_table[op]
+        return self.__dest_table[op]
 
     def jump(self,op):
         if(None == op):
             op = "null"
-        return self.jump_table[op]
+        return self.__jump_table[op]
 
-    comp_table = {
+    __comp_table = {
         #a = 0 -- first digit is zero.
         "0" : "0101010",
         "1" : "0111111",
@@ -40,20 +40,20 @@ class Code:
         "D|A" : "0010101",
 
         #a = 1, memory instead of address space.
-        "M" : "0110000",
-        "!M" : "0110001",
-        "-M" : "0110011",
-        "M+1" : "0110111",
-        "M-1" : "0110010",
-        "D+M" : "0000010",
-        "D-M" : "0010011",
-        "M-D" : "0000111",
-        "D&M" : "0000000",
-        "D|M" : "0010101",
+        "M" : "1110000",
+        "!M" : "1110001",
+        "-M" : "1110011",
+        "M+1" : "1110111",
+        "M-1" : "1110010",
+        "D+M" : "1000010",
+        "D-M" : "1010011",
+        "M-D" : "1000111",
+        "D&M" : "1000000",
+        "D|M" : "1010101",
         }
 
 
-    jump_table = {
+    __jump_table = {
         "null" : "000",
         "JGT" : "001",
         "JEQ" : "010",
@@ -64,7 +64,7 @@ class Code:
         "JMP" : "111",
         }
 
-    dest_table = {
+    __dest_table = {
         "null" : "000",
         "M" : "001",
         "D" : "010",
